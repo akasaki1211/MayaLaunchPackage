@@ -34,10 +34,7 @@ set ROOT_PATH=%REGION_PATH:~0,-5%
 
 
 ### 起動時に実行したいスクリプトの設定
-以下のuserSetup.pyに記述します。  
-* PRJ_Maya\scripts\userSetup.py　・・・共有  
-* PRJ_Maya\\\_ANIなど\scripts\userSetup.py　・・・REGION固有  
-
+PRJ_Maya\scripts\userSetup.pyに記述します。  
 参考までに以下の3つの関数を記述してあります。
 * loadPlugin　・・・Maya起動時に指定プラグインをロードします。
 * setfps　・・・NewScene実行時（起動時含む）にタイムレンジやフレームレートの設定を行います。
