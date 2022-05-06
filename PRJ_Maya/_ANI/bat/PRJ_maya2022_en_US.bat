@@ -49,9 +49,6 @@ set MAYA_MODULE_PATH=%MODULEPATH_PRJ%
 
 
 
-::Mayaプロジェクト
-set MAYA_PROJECT=D:\Projects\PRJ\Works
-
 ::---------------------------------------------------
 ::Maya起動
 ::---------------------------------------------------
