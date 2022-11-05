@@ -15,9 +15,9 @@ def drawHUD(*args):
     HUD_name = 'MayaRunningMode1'
     mode = getInfo.PROJECT_NAME
     if getInfo.REGION:
-        mode += '_' + str(getInfo.REGION)
+        mode += '_{}'.format(getInfo.REGION)
     str = 'Running in {} ({})'.format(mode, getInfo.PYTHON_VER)
-    cmds.headsUpDisplay(HUD_name, s=6, b=0, lfs="large" ,l=str)
+    cmds.headsUpDisplay(HUD_name, s=6, b=0, lfs="large", l=str)
 maya.utils.executeDeferred(drawHUD)
 
 def loadPlugin(*args):

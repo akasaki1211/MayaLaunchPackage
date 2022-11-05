@@ -1,68 +1,36 @@
 # MayaLaunchPackage
 
-Mayaを起動するbatファイル、各種設定ファイル、追加プラグイン、スクリプトなどをひとまとめにしたフォルダです。  
-そのまま使うというより、改変するためのあくまでベースフォルダ構成として受け取っていただければと思います。  
-***
-## 背景
-以前はあえて1フォルダにすべてまとめずに、社内の共有サーバなど各所から必要なものだけを参照するよう構成していました。  
-しかし、チーム（会社）外の方へ同一環境を用意してもらう際、パスの引き直しや必要ファイルの設置が煩雑で、準備に手間がかかりました。  
-このような背景から「プロジェクトで使用する必要最低限の設定は全てこのパッケージに収めてしまう」という運用で落ち着きました。  
+This folder contains bat files, configuration files, additional plug-ins, scripts, etc. to start Maya.
 
-## 設計上のポイント
-* パッケージフォルダの設置以外に作業者に行ってもらうことがないようにする。※Mayaなどのインストールは除きます。
-* パッケージフォルダ（=PRJ_Mayaフォルダ）をどこに置かれても同一環境で起動するよう可能な限り相対パスで記述する。
-* 同プロジェクト内でさらに起動方法を分岐できる。モデラー用、アニメーター用など。（=REGION）
-* ローカルの設定ファイル（`C:\Users\<ユーザー名>\Documents\maya`）を本パッケージにより改変しない。
+Rather than using this folder as is, it is intended as a base folder for modification.
 
-## Maya起動方法
-PRJ_Mayaフォルダを好きな場所に設置し、`PRJ_Maya\_ANI(又は_MDLなど)\bat` にあるバッチファイルを実行するとMayaが起動します。
+The minimal configuration and third-party tools used in the project can be contained in this package. It easy to have someone outside your team build the same environment.
 
-## 改変方法
-### 環境変数, Mayaバージョンなどの設定
-`PRJ_Maya\_ANIなど\bat` にあるPRJ_maya2022_en_US.bat内の記述を編集します。  
-バッチファイルそのもののファイル名は自由です。  
-ちょっと強引なやり方ですが、冒頭の4行でベースのパスを取得しています。  
-```
-set BAT_PATH=%~dp0
-set REGION_PATH=%BAT_PATH:bat\=%
-set REGION=%REGION_PATH:~-5,4%
-set ROOT_PATH=%REGION_PATH:~0,-5%
-``` 
-それ以降は環境変数の設定やスクリプトパスなどの設定です。  
-基本は相対パスから設定するように記述してあります。  
+> Tested with Maya 2023
 
+## Key design of this package
+* There is nothing for users to do other than install the package folder. (Maya must be already installed.)  
+* Use relative paths whenever possible, so that package folder can be placed anywhere.  
+* It has common settings and unique settings for each region(Model, Anim, etc). 
+* This package does not modify local configuration files(`C:\Users\<username>\Documents\maya`).  
+> package folder = `PRJ_Maya` folder
 
-### 起動時に実行したいスクリプトの設定
-`PRJ_Maya\scripts\userSetup.py`に記述します。  
-参考までに以下の関数を記述してあります。
-* loadPlugin　・・・Maya起動時に指定プラグインをロードします。
-* setfps　・・・NewScene実行時（起動時含む）にタイムレンジやフレームレートの設定を行います。
-* drawHUD　・・・起動時にビューポートの左下に文字列を表示します。例："Running in PRJ_ANI mode (PY3)"
-* autoSetProject　・・・現在のMayaプロジェクトと違うプロジェクトのシーンを開いたときSet Projectし直すかどうかの確認ダイアログを表示します。
+## How to use
+1. Place `PRJ_Maya` folder somewhere.
+1. Replace `PRJ` in the folder name with your project name.
+1. Create a batchfile with any file name while referencing `PRJ_Maya2023.bat`. Be sure to specify `MAYA_VERSION` and `MAYA_UI_LANGUAGE`.
+1. Write the script you want to run at startup in userSetup.py.
+    * Common settings : `PRJ_Maya\scripts\userSetup.py`
+    * Region settings : `PRJ_Maya\region\***\scripts\userSetup.py`
+1. Place the third-party tools, etc. in each scripts, plug-ins, and modules folder.
+    * Common settings : `PRJ_Maya\scripts`, `PRJ_Maya\plug-ins`, `PRJ_Maya\modules`
+    * Region settings : `PRJ_Maya\region\***\scripts`, `PRJ_Maya\region\***\plug-ins`, `PRJ_Maya\region\***\modules`   
+1. Place any image file named `MayaStartupImage.png` in `PRJ_Maya\icons` to affect the splash screen. (if necessary)
 
-
-### プロジェクト名
-「PRJ_Maya」フォルダの「PRJ」の部分を任意の文字列に変更します。  
-変更しなくても動作には影響ありません。  
-
-
-### REGION
-PRJ_Maya内の「\_ANI」「\_MDL」フォルダがREGIONです。このフォルダの名前・数は任意ですが、フォルダ名を4文字以外に変更する場合はバッチファイル内の以下の2行を変更する必要があります。  
-```
-set REGION=%REGION_PATH:~-5,4%
-set ROOT_PATH=%REGION_PATH:~0,-5%
-```
-例）REGIONフォルダ名を「MODEL」など5文字にした場合  
-```
-set REGION=%REGION_PATH:~-6,5%
-set ROOT_PATH=%REGION_PATH:~0,-6%
-```
-
-
-### 必要scripts, plug-ins, modulesの設置
-PRJ_Maya直下のscripts, plug-ins, modulesはREGIONに関係なく共通でパスを参照するようbatファイルに記述してあります。  
-REGIONごとに固有のパスを参照したい場合は`PRJ_Maya\_ANI(又は_MDL)`内のscriptsフォルダが該当します。  
-  
-  
-### スプラッシュスクリーン
-`PRJ_Maya\icons`内にMayaStartupImage.pngという名前で任意の画像ファイルを設置すると、起動時に表示されます。  
+## About the samples in `PRJ_Maya\scripts\userSetup.py` 
+|||
+|---|---|
+|drawHUD|Displays the following HUD in the lower left corner of viewport.<br>e.g. "Running in PRJ_Model (Python 3.9.7)"|
+|loadPlugin|Loads/Unloads the plug-ins|
+|sceneSettings|Set the unit, time-range, framerate, etc. when NewScene is executed (including at startup Maya).|
+|autoSetProject|Display a confirmation dialog asking if you want to Set Project when you open a scene from a different Maya-Project than a current Maya-Project.|
