@@ -13,7 +13,10 @@ import os
 
 def drawHUD(*args):
     HUD_name = 'MayaRunningMode1'
-    str = 'Running in {}{} ({})'.format(getInfo.PROJECT_NAME, getInfo.REGION, getInfo.PYTHON_VER)
+    mode = getInfo.PROJECT_NAME
+    if getInfo.REGION:
+        mode += '_' + str(getInfo.REGION)
+    str = 'Running in {} ({})'.format(mode, getInfo.PYTHON_VER)
     cmds.headsUpDisplay(HUD_name, s=6, b=0, lfs="large" ,l=str)
 maya.utils.executeDeferred(drawHUD)
 

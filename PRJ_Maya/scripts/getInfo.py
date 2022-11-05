@@ -12,14 +12,14 @@ REGION_PATH = os.environ.get("REGION_PATH")
 REGION = os.environ.get("REGION")
 
 # get info
-PROJECT_NAME = os.path.basename(ROOT_PATH).replace('_Maya', '')
+PROJECT_NAME = os.path.basename(ROOT_PATH).split('_')[0]
 PYTHON_VER = 'Python {}.{}.{}'.format(sys.version_info.major, sys.version_info.minor, sys.version_info.micro)
 
 print('\n\n========================================================')
 print("PROJECT_NAME     : {}".format(PROJECT_NAME))
+print("REGION           : {}".format(REGION))
 print("PYTHON_VER       : {}".format(PYTHON_VER))
 print('-----------------------------')
 print("ROOT_PATH        : {}".format(ROOT_PATH))
 print("REGION_PATH      : {}".format(REGION_PATH))
-print("REGION           : {}".format(REGION))
 print('========================================================\n\n')
