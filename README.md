@@ -27,6 +27,7 @@ The minimal configuration and third-party tools used in the project can be conta
     * Common settings : `PRJ_Maya\scripts`, `PRJ_Maya\plug-ins`, `PRJ_Maya\modules`
     * Region settings : `PRJ_Maya\region\***\scripts`, `PRJ_Maya\region\***\plug-ins`, `PRJ_Maya\region\***\modules`   
 1. Place any image file named `MayaStartupImage.png` in `PRJ_Maya\icons` to affect the splash screen. (if necessary)
+1. Drag and drop the batchfile to `createShortcut.bat` to create a pinnable shortcut to Start or Taskbar. If an ico file exists in `PRJ_Maya\icons`, it will be applied to shortcut icon. (if necessary)
 
 ## About the samples in `PRJ_Maya\scripts\userSetup.py` 
 |||
