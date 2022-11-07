@@ -1,0 +1,1 @@
+powershell -NoProfile -ExecutionPolicy Unrestricted %~dp0createShortcut.ps1 %1
