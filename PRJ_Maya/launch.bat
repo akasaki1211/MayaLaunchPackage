@@ -8,12 +8,16 @@
 set ROOT_PATH=%~dp0
 set ROOT_PATH=%ROOT_PATH:~0,-1%
 
-IF DEFINED REGION (
-    set REGION_PATH=%ROOT_PATH%\region\%REGION%
-    set REGION_SCRIPT_PATH=%REGION_PATH%\scripts
-    set REGION_PLUGIN_PATH=%REGION_PATH%\plug-ins
-    set REGION_MODULE_PATH=%REGION_PATH%\modules
+if not defined REGION (
+    goto CONTINUE
 )
+
+set REGION_PATH=%ROOT_PATH%\region\%REGION%
+set REGION_SCRIPT_PATH=%REGION_PATH%\scripts
+set REGION_PLUGIN_PATH=%REGION_PATH%\plug-ins
+set REGION_MODULE_PATH=%REGION_PATH%\modules
+
+:CONTINUE
 
 :: Maya Settings
 set MAYA_DISABLE_CIP=1

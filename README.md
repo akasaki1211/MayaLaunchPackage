@@ -19,6 +19,7 @@ The minimal configuration and third-party tools used in the project can be conta
 1. Place `PRJ_Maya` folder somewhere.
 1. Replace `PRJ` in the folder name with your project name.
 1. Create a batchfile with any file name while referencing `PRJ_Maya2023.bat`. Be sure to specify `MAYA_VERSION` and `MAYA_UI_LANGUAGE`.
+1. To create a new region, create a new folder in `PRJ_Maya\region` and set the folder name to `REGION` variable in batchfile.
 1. Write the script you want to run at startup in userSetup.py.
     * Common settings : `PRJ_Maya\scripts\userSetup.py`
     * Region settings : `PRJ_Maya\region\***\scripts\userSetup.py`
