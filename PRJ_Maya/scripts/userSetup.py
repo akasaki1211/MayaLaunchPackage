@@ -8,7 +8,6 @@ import getInfo
 import maya.utils
 import maya.cmds as cmds
 import maya.api.OpenMaya as om2
-import sys
 import os
 
 def drawHUD(*args):
