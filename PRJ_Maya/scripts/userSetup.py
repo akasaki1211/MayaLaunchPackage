@@ -1,46 +1,43 @@
 # -*- coding: utf-8 -*-
+import getInfo
+
+
+# ====================================================
+# Common Custom Settings
+# ====================================================
 import maya.utils
 import maya.cmds as cmds
 import maya.api.OpenMaya as om2
-import sys
 import os
-
-#----------------------------------------------------------------------
-import mayaPackageInfo
-
-print("==== {} Maya ====".format(mayaPackageInfo.getProjectName()))
-print("Maya Package path : {}".format(mayaPackageInfo.getPakageRootPath()))
-print("Startup bat path  : {}".format(mayaPackageInfo.getBatPath()))
-print("Scripts path      : {}".format(mayaPackageInfo.getScriptPath()))
-print("""
- _____  _____      _ 
-|  __ \|  __ \    | |
-| |__) | |__) |   | |
-|  ___/|  _  /_   | |
-| |    | | \ \ |__| |
-|_|    |_|  \_\____/ {}
-""".format(mayaPackageInfo.getRegion())
-)
-
-#----------------------------------------------------------------------
-
-def loadPlugin(*args):
-    cmds.loadPlugin('fbxmaya.mll',qt=True)
-    cmds.loadPlugin('matrixNodes.mll',qt=True)
-maya.utils.executeDeferred( loadPlugin )
-
-def setfps(*args):
-    print('set fps!')
-    cmds.currentUnit( time='ntsc')
-    cmds.playbackOptions(min=1, max=100, ast=0, aet=100)
-    cmds.currentTime(1)
-om2.MSceneMessage.addCallback(om2.MSceneMessage.kAfterNew, setfps)
 
 def drawHUD(*args):
     HUD_name = 'MayaRunningMode1'
-    str = 'Running in {}{} mode (PY{})'.format(mayaPackageInfo.getProjectName(), mayaPackageInfo.getRegion(), sys.version_info[0])
-    cmds.headsUpDisplay(HUD_name, s=6, b=0, lfs="large" ,l=str)
+    mode = getInfo.PROJECT_NAME
+    if getInfo.REGION:
+        mode += '_{}'.format(getInfo.REGION)
+    str = 'Running in {} ({})'.format(mode, getInfo.PYTHON_VER)
+    cmds.headsUpDisplay(HUD_name, s=6, b=0, lfs="large", l=str)
 maya.utils.executeDeferred(drawHUD)
+
+def loadPlugin(*args):
+    # load
+    cmds.loadPlugin('fbxmaya.mll',qt=True)
+    cmds.loadPlugin('matrixNodes.mll',qt=True)
+    # unload
+    cmds.unloadPlugin("Mayatomr", f=True)
+    cmds.unloadPlugin('lookdevKit.mll',f=True)
+maya.utils.executeDeferred( loadPlugin )
+
+def sceneSettings(*args):
+    print('==== Set {} Settings ===='.format(getInfo.PROJECT_NAME))
+    # fps, unit
+    cmds.currentUnit(t='ntsc', l='cm', a='deg')
+    # timerange
+    cmds.playbackOptions(min=1, max=90, ast=1, aet=90)
+    # current time
+    cmds.currentTime(1)
+om2.MSceneMessage.addCallback(om2.MSceneMessage.kAfterNew, sceneSettings)
+om2.MSceneMessage.addCallback(om2.MSceneMessage.kAfterOpen, sceneSettings)
 
 def autoSetProject(*args):
     currentProjectPath = os.path.normpath(cmds.workspace(q=True, active=True))
