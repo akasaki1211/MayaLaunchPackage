@@ -2,8 +2,8 @@ if ($args[0] -eq $null) {
     exit
 }
 
-#$currentDir = Split-Path -Parent $MyInvocation.MyCommand.Path
-$currentDir = (Get-Location).Path
+$currentDir = Split-Path -Parent $MyInvocation.MyCommand.Path
+#$currentDir = (Get-Location).Path
 
 #$filename = Join-Path $currentDir ((Split-Path $args[0] -Leaf) + '.lnk')
 $targetName = [System.IO.Path]::GetFileNameWithoutExtension($args[0])
